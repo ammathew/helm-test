@@ -1,18 +1,23 @@
 "use client";
 
+import { useState } from "react";
 import { useDashboard} from "@/context/dashboard-context";
 import classNames from "classnames";
 import { FaCheck } from "react-icons/fa";
 
+import LoadingOverlay from '../ui/LoadingOverlay';
+
 export default function GuidelinesUpload() {
     const { guidelinesFile, setGuidelinesFile } = useDashboard();
+    const [isUploading, setIsUploading] = useState(false);
 
     const handleClick = () => {
         setGuidelinesFile({ url: "/assets/guidelines.pdf" });
     }
 
     return(
-        <div className="w-1/2 h-64 border border-4 border-gray-200 border-dashed rounded flex flex-row items-center justify-center">
+        <div className="w-1/2 h-64 border border-4 border-gray-200 border-dashed rounded flex flex-row items-center justify-center relative">
+            <LoadingOverlay isUploading={isUploading} />
             <button
                 className={classNames(
                     "text-white font-medium py-2 px-4 rounded border border-2",
