@@ -7,13 +7,25 @@ import { FaCheck } from "react-icons/fa";
 
 import LoadingOverlay from '../ui/LoadingOverlay';
 
+import { ToastContainer, toast } from 'react-toast';
+
 export default function GuidelinesUpload() {
     const { guidelinesFile, setGuidelinesFile } = useDashboard();
+    const { medicalRecord, setMedicalRecord } = useDashboard();
+    const {canContinue, setCanContinue} = useDashboard();
     const [isUploading, setIsUploading] = useState(false);
 
     const handleClick = () => {
-        setGuidelinesFile({ url: "/assets/guidelines.pdf" });
-    }
+        if (!medicalRecord) {
+            toast("Please upload a medical record first");
+        } else {
+            setIsUploading(true);
+            setTimeout(() => {
+                setGuidelinesFile({ url: "/assets/guidelines.pdf" });
+                setIsUploading(false);
+            }, 2000);
+        }
+    };
 
     return(
         <div className="w-1/2 h-64 border border-4 border-gray-200 border-dashed rounded flex flex-row items-center justify-center relative">

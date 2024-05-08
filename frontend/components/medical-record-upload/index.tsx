@@ -12,7 +12,11 @@ export default function MedicalRecordUpload() {
     const [isUploading, setIsUploading] = useState(false);
 
     const handleClick = () => {
-        setMedicalRecord({ url: "/assets/medical-record.pdf" });
+        setIsUploading(true);
+        setTimeout(() => {
+                setMedicalRecord({ url: "/assets/medical-record.pdf" });
+                setIsUploading(false);
+        }, 3000);
     }
 
     return(

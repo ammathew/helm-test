@@ -1,12 +1,18 @@
 "use client";
 
+import { useEffect } from "react";
 import GuidelinesUpload from "@/components/guidelines-upload";
 import MedicalRecordUpload from "@/components/medical-record-upload";
 import { useRouter } from "next/navigation";
 
 export const revalidate = 0;
+import { m } from "framer-motion";
+import { useDashboard } from "@/context/dashboard-context";
 
-export default async function DashboardRoot() {
+import { ToastContainer, toast } from 'react-toast';
+
+export default function DashboardRoot() {
+	const {canContinue, setCanContinue} = useDashboard();
 	const router = useRouter();
 	const CASE_ID = "case_891a_6fbl_87d1_4326";
 
@@ -20,14 +26,17 @@ export default async function DashboardRoot() {
 				<MedicalRecordUpload />
 				<GuidelinesUpload />
 			</div>
-			<div className="w-full py-4 flex flex-row justify-center">
-				<button
-					className="bg-green-600 font-medium text-white py-2 px-4 rounded"
-					onClick={handleContinue}
-				>
-					Continue
-				</button>
-			</div>
+				{ canContinue && (
+                <div className="w-full py-4 flex flex-row justify-center">
+                    <button
+                        className="bg-green-600 font-medium text-white py-2 px-4 rounded"
+                        onClick={handleContinue}
+                    >
+                        Continue
+                    </button>
+                </div>
+				)}
+		<ToastContainer />
 		</div>
 	)
 }
