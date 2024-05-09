@@ -25,6 +25,7 @@ cases = {}
 class Case(BaseModel):
     id: str
     procedure_name: Optional[str] = None
+    is_met: Optional[str] = None
     cpt_codes: Optional[List[str]] = None
     created_at: datetime
     status: str
@@ -40,11 +41,11 @@ def load_json(file_path):
 def update_case_from_json(case: Case, file_path: str):
     response = load_json(file_path)
     case.procedure_name = response['procedure_name']
-    case.cpt_codes = response['cpt_codes']
     case.status = response['status']
+    case.is_met = response['is_met']
+    case.cpt_codes = response['cpt_codes']
     case.steps = response['steps']
     case.summary = response['summary']
-
 
 def process_case(case: Case):
     time.sleep(10)
