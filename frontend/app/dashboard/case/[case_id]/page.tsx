@@ -1,8 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import { usePathname } from 'next/navigation'
-import { Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 
 import { Card, CardContent, CardHeader, FormControlLabel, Checkbox } from '@material-ui/core';
 
