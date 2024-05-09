@@ -13,21 +13,25 @@ export default function CaseResult(props) {
 	const caseId = temp.slice(1).join('_');
 
 	useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch('http://localhost:8000/cases/' + caseId);
-                const data = await response.json();
-                setCaseData(data);
-            } catch (error) {
-                console.error('Error:', error);
-            }
+		let intervalId = null;
+		const fetchData = async () => {
+			try {
+				const response = await fetch('http://localhost:8000/cases/' + caseId);
+				const data = await response.json();
+				setCaseData(data);
+			} catch (error) {
+				console.error('Error:', error);
+			}
 		};
-
 		if (caseId) {
 			fetchData();
+			intervalId = setInterval(fetchData, 15000);
 		}
-		const intervalId = setInterval(fetchData, 15000)
-		return () => clearInterval(intervalId);
+		return () => {
+			if (intervalId) {
+				clearInterval(intervalId);
+			}
+		};
 	}, [caseId]);
 
 	return (
