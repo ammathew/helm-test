@@ -15,7 +15,6 @@ export default function CaseResult(props) {
 	useEffect(() => {
 		let intervalId = null;
 		const fetchData = () => {
-			console.log('fetching data');
 			fetch('http://localhost:8000/cases/' + caseId)
 				.then(response => {
 					if (!response.ok) {
@@ -32,7 +31,7 @@ export default function CaseResult(props) {
 		};
 		if (caseId) {
 			fetchData();
-			intervalId = setInterval(fetchData, 15000);
+			intervalId = setInterval(fetchData, 5000);
 		}
 		return () => {
 			if (intervalId) {

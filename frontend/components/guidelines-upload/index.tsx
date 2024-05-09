@@ -23,7 +23,7 @@ export default function GuidelinesUpload() {
             setTimeout(() => {
                 setGuidelinesFile({ url: "/assets/guidelines.pdf" });
                 setIsUploading(false);
-            }, 20);
+            }, 3000);
         }
     };
 

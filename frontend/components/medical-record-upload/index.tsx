@@ -16,7 +16,7 @@ export default function MedicalRecordUpload() {
         setTimeout(() => {
                 setMedicalRecord({ url: "/assets/medical-record.pdf" });
                 setIsUploading(false);
-        }, 30);
+        }, 3000);
     }
 
     return(
