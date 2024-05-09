@@ -15,8 +15,6 @@ const useStyles = makeStyles({
 
 
 
-
-
 export default function CaseResult(props) {
     const [caseData, setCaseData] = useState(null);
 
@@ -44,55 +42,51 @@ export default function CaseResult(props) {
 	return (
 		<div>
 			{caseData ? (
-				<Card className="case-result">
-					<CardHeader title={caseData.procedure_name || 'Loading...'} />
-					<CardContent>
-						<Grid container direction="column" className={classes.gridContainer}>
-							<Grid item container justify="space-between">
-								<Grid item>
-									<Typography variant="h6">Status</Typography>
-									<Typography variant="body1">{caseData.status || 'Loading...'}</Typography>
-								</Grid>
-								<Grid item>
-									<Typography variant="h6">Determination</Typography>
-									<Typography variant="body1">{caseData.is_met !== undefined ? (caseData.is_met ? 'True' : 'False') : 'Loading...'}</Typography>
-								</Grid>
-							</Grid>
-						</Grid>
-						<Typography><strong>Summary:</strong> {caseData.summary || 'Loading...'}</Typography>
-						<Typography><strong>CPT Codes:</strong> {caseData.cpt_codes ? caseData.cpt_codes.join(', ') : 'Loading...'}</Typography>
-						{caseData.steps ? (
-							caseData.steps.map((step) => (
-								<Card>
-									<CardHeader title={step.question} />
-									<CardContent>
-
-										<Card title={step.question}>
-											<CardContent>
-												{step.options && step.options.length > 0 ? (
-													step.options.map((option, index) => (
-														<div>
-															<FormControlLabel
-																key={index}
-																control={<Checkbox />}
-																label={option.text}
-															/>
-														</div>
-													))
-												) : null}
-											</CardContent>
-										</Card>
-									</CardContent>
-								</Card>
-							))
-						) : null
-						}
-					</CardContent >
-				</Card >
+				<div style={{ marginTop: '20px' }}>
+					<Card className="case-result" style={{ marginBottom: '20px' }}>
+						<CardHeader title={caseData.procedure_name || 'Loading...'} />
+						<CardContent>
+							<Typography><strong>Status:</strong> {caseData.status || 'Loading...'}</Typography>
+							<Typography><strong>Determination:</strong>{caseData.is_met !== undefined ? (caseData.is_met ? 'True' : 'False') : 'Loading...'}</Typography>
+							<Typography><strong>CPT Codes:</strong> {caseData.cpt_codes ? caseData.cpt_codes.join(', ') : 'Loading...'}</Typography>
+						</CardContent>
+					</Card>
+					{caseData.steps ? (
+						caseData.steps.map((step) => (
+							<Card style={{ marginBottom: '20px' }}>
+								<CardHeader title={step.question} />
+								<CardContent>
+									{step.options && step.options.length > 0 ? (
+										step.options.map((option, index) => (
+											<div>
+												<FormControlLabel
+													key={index}
+													control={<Checkbox checked={option.selected} disabled={!option.selected} />}
+													label={option.text}
+												/>
+											</div>
+										))
+									) : null}
+									{step.reasoning}
+								</CardContent>
+							</Card>
+						))
+					) : null
+					}
+					<Card className="case-result" style={{ marginBottom: '20px', backgroundColor: caseData.is_met ? 'green' : '#FFB6C1' }}>
+						<CardContent>
+							<Typography style={{ fontSize: '2em', color: caseData.is_met ? 'green' : 'red' }}>
+								{caseData.is_met ? 'Likely Met' : 'Likely Denial'}
+							</Typography>
+							<Typography>{caseData.summary || 'Loading...'}</Typography>
+						</CardContent>
+					</Card>
+				</div >
 			) : (
 				<Typography>Loading...</Typography>
-			)}
-		</div>
+			)
+			}
+		</div >
 	);
 
 
