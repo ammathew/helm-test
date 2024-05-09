@@ -24,6 +24,9 @@ export default function CaseResult(props) {
 				})
 				.then(data => {
 					setCaseData(data);
+					if(data.steps){
+						clearInterval(intervalId);
+					}
 				})
 				.catch(error => {
 					console.error('Error:', error);
