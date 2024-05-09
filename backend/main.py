@@ -64,7 +64,7 @@ async def root():
 
 @app.post("/cases", response_model=Case)
 async def create_case():
-    case_id = '891a_6fbl_87d1_4326'
+    case_id = str(uuid.uuid4())
     case = Case(id=case_id, created_at=datetime.now(), status="submitted")
     cases[case_id] = case
     threading.Thread(target=process_case, args=(case,)).start()

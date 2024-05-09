@@ -6,14 +6,39 @@ import { Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHea
 
 import { Card, CardContent, CardHeader, FormControlLabel, Checkbox } from '@material-ui/core';
 
-export default function CaseResult(props) {
-    const [caseData, setCaseData] = useState(null);
+interface CaseResultProps {
+	params: {
+        case_id: string;
+	};
+}
 
-	const temp = props.params.case_id.split('_');
-	const caseId = temp.slice(1).join('_');
+interface Option {
+	selected: boolean;
+	text: string;
+}
+
+interface Step {
+	question: string;
+	options: Option[];
+	reasoning: string;
+}
+
+interface CaseData {
+	procedure_name: string;
+	status: string;
+	is_met: boolean | null;
+	cpt_codes: string[];
+	steps: Step[];
+	summary: string;
+	created_at: string;
+}
+
+export default function CaseResult(props: CaseResultProps) {
+    const [caseData, setCaseData] = useState<CaseData | null>(null);
+	const caseId = props.params.case_id;
 
 	useEffect(() => {
-		let intervalId = null;
+		let intervalId: number | undefined = undefined;
 		const fetchData = () => {
 			fetch('http://localhost:8000/cases/' + caseId)
 				.then(response => {
@@ -34,7 +59,7 @@ export default function CaseResult(props) {
 		};
 		if (caseId) {
 			fetchData();
-			intervalId = setInterval(fetchData, 5000);
+			intervalId = window.setInterval(fetchData, 5000);
 		}
 		return () => {
 			if (intervalId) {

@@ -14,7 +14,7 @@ import { ToastContainer, toast } from 'react-toast';
 export default function DashboardRoot() {
 	const {canContinue, setCanContinue} = useDashboard();
 	const router = useRouter();
-	const CASE_ID = "case_891a_6fbl_87d1_4326";
+	// const CASE_ID = "case_891a_6fbl_87d1_4326";
 
 	const handleContinue = () => {
 		fetch('http://localhost:8000/cases', {
@@ -26,6 +26,7 @@ export default function DashboardRoot() {
 			.then(response => response.json())
 			.then(data => {
 				console.log('Success:', data);
+				let CASE_ID = data.id;
 				router.push(`/dashboard/case/${CASE_ID}`)
 			})
 			.catch((error) => {
