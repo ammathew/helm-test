@@ -38,27 +38,28 @@ def load_json(file_path):
         data = json.load(f)
     return data
 
-def update_case_from_json(case: Case, file_path: str):
+def update_case_from_json(case: Case, file_path: str, round: int = 1):
     response = load_json(file_path)
     case.procedure_name = response['procedure_name']
     case.status = response['status']
-    case.is_met = response['is_met']
+    if round == 3:
+        case.is_met = response['is_met']
     case.cpt_codes = response['cpt_codes']
     case.steps = response['steps']
     case.summary = response['summary']
 
 def process_case(case: Case):
-    time.sleep(10)
-    update_case_from_json(case, '../assets/response-1.json')
-    print(case)
+    round = 1
+    time.sleep(1)
+    update_case_from_json(case, '../assets/response-1.json', round)
+    round += 1
     cases[case.id] = case
-    time.sleep(10)
-    update_case_from_json(case, '../assets/response-2.json')
-    print(case)
+    time.sleep(1)
+    update_case_from_json(case, '../assets/response-2.json', round)
+    round += 1
     cases[case.id] = case
-    time.sleep(30)
-    update_case_from_json(case, '../assets/response-3.json')
-    print(case)
+    time.sleep(3)
+    update_case_from_json(case, '../assets/response-3.json', round)
     cases[case.id] = case
 
 

@@ -3,25 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation'
 import { Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 
 import { Card, CardContent, CardHeader, FormControlLabel, Checkbox } from '@material-ui/core';
-
-const useStyles = makeStyles({
-	gridContainer: {
-	  width: 400,
-	},
-  });
-
-
 
 export default function CaseResult(props) {
     const [caseData, setCaseData] = useState(null);
 
 	const temp = props.params.case_id.split('_');
 	const caseId = temp.slice(1).join('_');
-
-	const classes = useStyles();
 
 	useEffect(() => {
         const fetchData = async () => {
