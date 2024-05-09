@@ -12,7 +12,7 @@ import { ToastContainer, toast } from 'react-toast';
 export default function GuidelinesUpload() {
     const { guidelinesFile, setGuidelinesFile } = useDashboard();
     const { medicalRecord, setMedicalRecord } = useDashboard();
-    const {canContinue, setCanContinue} = useDashboard();
+    const { canContinue, setCanContinue} = useDashboard();
     const [isUploading, setIsUploading] = useState(false);
 
     const handleClick = () => {
@@ -23,7 +23,7 @@ export default function GuidelinesUpload() {
             setTimeout(() => {
                 setGuidelinesFile({ url: "/assets/guidelines.pdf" });
                 setIsUploading(false);
-            }, 2000);
+            }, 20);
         }
     };
 
