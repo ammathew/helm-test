@@ -23,13 +23,13 @@ export default function CaseResult(props) {
 					return response.json();
 				})
 				.then(data => {
-					setCaseData(data);
-					if(data.steps){
+					if(data.status === 'complete'){
 						clearInterval(intervalId);
 					}
+					setCaseData(data);
 				})
 				.catch(error => {
-					console.error('Error:', error);
+					console.log('Error:', error);
 				});
 		};
 		if (caseId) {
@@ -51,6 +51,7 @@ export default function CaseResult(props) {
 						<CardHeader title={caseData.procedure_name || 'Loading...'} />
 						<CardContent>
 							<Typography><strong>Status:</strong> {caseData.status || 'Loading...'}</Typography>
+							<Typography><strong>Case created on:</strong> {caseData.created_at ? new Date(caseData.created_at).toLocaleString('en-US', { month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true }) : 'Loading...'}</Typography>
 							<Typography>
 								<strong>Determination: </strong>
 								{caseData.is_met !== null && caseData.is_met !== undefined ? (caseData.is_met ? 'Likely Accepted' : 'Likely Denial') : 'Loading...'}
