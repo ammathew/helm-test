@@ -59,9 +59,6 @@ export default function CaseResult(props) {
 								</Grid>
 							</Grid>
 						</Grid>
-
-						<Typography><strong>Case ID:</strong> {caseData.id || 'Loading...'}</Typography>
-						<Typography><strong>Status:</strong> {caseData.status || 'Loading...'}</Typography>
 						<Typography><strong>Summary:</strong> {caseData.summary || 'Loading...'}</Typography>
 						<Typography><strong>CPT Codes:</strong> {caseData.cpt_codes ? caseData.cpt_codes.join(', ') : 'Loading...'}</Typography>
 						{caseData.steps ? (
@@ -85,7 +82,6 @@ export default function CaseResult(props) {
 												) : null}
 											</CardContent>
 										</Card>
-
 									</CardContent>
 								</Card>
 							))
