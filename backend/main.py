@@ -25,12 +25,12 @@ cases = {}
 class Case(BaseModel):
     id: str
     procedure_name: Optional[str] = None
-    is_met: Optional[str] = None
+    is_met: Optional[bool] = None
     cpt_codes: Optional[List[str]] = None
     created_at: datetime
     status: str
     summary: Optional[str] = None
-    steps: Optional[List[str]] = None
+    steps: Optional[List[dict]] = None
 
 
 def load_json(file_path):
@@ -38,28 +38,24 @@ def load_json(file_path):
         data = json.load(f)
     return data
 
-def update_case_from_json(case: Case, file_path: str, round: int = 1):
+def update_case_from_json(case: Case, file_path: str):
     response = load_json(file_path)
     case.procedure_name = response['procedure_name']
     case.status = response['status']
-    if round == 3:
-        case.is_met = response['is_met']
+    case.is_met = response['is_met']
     case.cpt_codes = response['cpt_codes']
     case.steps = response['steps']
     case.summary = response['summary']
 
 def process_case(case: Case):
-    round = 1
     time.sleep(1)
-    update_case_from_json(case, '../assets/response-1.json', round)
-    round += 1
+    update_case_from_json(case, '../assets/response-1.json')
     cases[case.id] = case
     time.sleep(1)
-    update_case_from_json(case, '../assets/response-2.json', round)
-    round += 1
+    update_case_from_json(case, '../assets/response-2.json')
     cases[case.id] = case
     time.sleep(3)
-    update_case_from_json(case, '../assets/response-3.json', round)
+    update_case_from_json(case, '../assets/response-3.json')
     cases[case.id] = case
 
 

@@ -23,7 +23,9 @@ export default function CaseResult(props) {
             }
 		};
 
-		fetchData();
+		if (caseId) {
+			fetchData();
+		}
 		const intervalId = setInterval(fetchData, 15000)
 		return () => clearInterval(intervalId);
 	}, [caseId]);
