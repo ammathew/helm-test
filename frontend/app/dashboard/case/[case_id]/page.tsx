@@ -36,7 +36,10 @@ export default function CaseResult(props) {
 						<CardHeader title={caseData.procedure_name || 'Loading...'} />
 						<CardContent>
 							<Typography><strong>Status:</strong> {caseData.status || 'Loading...'}</Typography>
-							<Typography><strong>Determination:</strong>{caseData.is_met !== undefined ? (caseData.is_met ? 'True' : 'False') : 'Loading...'}</Typography>
+							<Typography>
+								<strong>Determination: </strong>
+								{caseData.is_met !== null && caseData.is_met !== undefined ? (caseData.is_met ? 'Likely Accepted' : 'Likely Denial') : 'Loading...'}
+							</Typography>
 							<Typography><strong>CPT Codes:</strong> {caseData.cpt_codes ? caseData.cpt_codes.join(', ') : 'Loading...'}</Typography>
 						</CardContent>
 					</Card>
