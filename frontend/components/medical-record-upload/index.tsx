@@ -13,21 +13,6 @@ export default function MedicalRecordUpload() {
 
     const handleClick = () => {
         setIsUploading(true);
-
-        fetch('http://localhost:8000/cases', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-
         setTimeout(() => {
                 setMedicalRecord({ url: "/assets/medical-record.pdf" });
                 setIsUploading(false);

@@ -14,14 +14,21 @@ export default function CaseResult(props) {
 
 	useEffect(() => {
 		let intervalId = null;
-		const fetchData = async () => {
-			try {
-				const response = await fetch('http://localhost:8000/cases/' + caseId);
-				const data = await response.json();
-				setCaseData(data);
-			} catch (error) {
-				console.error('Error:', error);
-			}
+		const fetchData = () => {
+			console.log('fetching data');
+			fetch('http://localhost:8000/cases/' + caseId)
+				.then(response => {
+					if (!response.ok) {
+						throw new Error('Network response was not ok');
+					}
+					return response.json();
+				})
+				.then(data => {
+					setCaseData(data);
+				})
+				.catch(error => {
+					console.error('Error:', error);
+				});
 		};
 		if (caseId) {
 			fetchData();

@@ -17,7 +17,20 @@ export default function DashboardRoot() {
 	const CASE_ID = "case_891a_6fbl_87d1_4326";
 
 	const handleContinue = () => {
-		router.push(`/dashboard/case/${CASE_ID}`)
+		fetch('http://localhost:8000/cases', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		})
+			.then(response => response.json())
+			.then(data => {
+				console.log('Success:', data);
+				router.push(`/dashboard/case/${CASE_ID}`)
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
 	}
 
 	return (

@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List
@@ -67,7 +67,7 @@ async def root():
 async def create_case():
     case_id = '891a_6fbl_87d1_4326'
     case = Case(id=case_id, created_at=datetime.now(), status="submitted")
-    cases[id] = case
+    cases[case_id] = case
     threading.Thread(target=process_case, args=(case,)).start()
     return case
 
@@ -77,5 +77,7 @@ async def get_cases():
 
 @app.get("/cases/{case_id}", response_model=Case)
 async def get_case(case_id: str):
-    case = cases[case_id]
+    case = cases.get(case_id)
+    if case is None:
+        raise HTTPException(status_code=404, detail="Case not found")
     return case
