@@ -13,21 +13,28 @@ export default function CaseResult(props) {
 	const caseId = temp.slice(1).join('_');
 
 	useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch('http://localhost:8000/cases/' + caseId);
-                const data = await response.json();
-                setCaseData(data);
-            } catch (error) {
-                console.error('Error:', error);
-            }
+		let intervalId = null;
+	
+		const fetchData = async () => {
+			try {
+				const response = await fetch('http://localhost:8000/cases/' + caseId);
+				const data = await response.json();
+				setCaseData(data);
+			} catch (error) {
+				console.error('Error:', error);
+			}
 		};
-
+	
 		if (caseId) {
 			fetchData();
+			intervalId = setInterval(fetchData, 15000);
 		}
-		const intervalId = setInterval(fetchData, 15000)
-		return () => clearInterval(intervalId);
+	
+		return () => {
+			if (intervalId) {
+				clearInterval(intervalId);
+			}
+		};
 	}, [caseId]);
 
 	return (
@@ -46,15 +53,14 @@ export default function CaseResult(props) {
 						</CardContent>
 					</Card>
 					{caseData.steps ? (
-						caseData.steps.map((step) => (
-							<Card style={{ marginBottom: '20px' }}>
+						caseData.steps.map((step, index) => (
+							<Card key={index} style={{ marginBottom: '20px' }}>
 								<CardHeader title={step.question} />
 								<CardContent>
 									{step.options && step.options.length > 0 ? (
-										step.options.map((option, index) => (
-											<div>
+										step.options.map((option, optionIndex) => (
+											<div key={optionIndex}>
 												<FormControlLabel
-													key={index}
 													control={<Checkbox checked={option.selected} disabled={!option.selected} />}
 													label={option.text}
 												/>
@@ -65,8 +71,7 @@ export default function CaseResult(props) {
 								</CardContent>
 							</Card>
 						))
-					) : null
-					}
+					) : null}
 					<Card className="case-result" style={{ marginBottom: '20px', backgroundColor: caseData.is_met ? 'green' : '#FFB6C1' }}>
 						<CardContent>
 							<Typography style={{ fontSize: '2em', color: caseData.is_met ? 'green' : 'red' }}>
