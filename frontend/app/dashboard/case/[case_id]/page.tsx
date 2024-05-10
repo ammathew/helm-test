@@ -36,6 +36,7 @@ interface CaseData {
 
 export default function CaseResult(props: CaseResultProps) {
     const [caseData, setCaseData] = useState<CaseData | null>(null);
+	const [caseNotFound, setCaseNotFound] = useState(false);
 	const caseId = props.params.case_id;
 
 	function formatElapsedTime(seconds: number) {
@@ -50,7 +51,13 @@ export default function CaseResult(props: CaseResultProps) {
 			fetch('http://localhost:8000/cases/' + caseId)
 				.then(response => {
 					if (!response.ok) {
-						throw new Error('Network response was not ok');
+						if (response.status === 404) {
+							setCaseData(null);
+							setCaseNotFound(true);
+							clearInterval(intervalId);
+						}
+						throw new Error(`Network response was not ok, status code: ${response.status}`);
+
 					}
 					return response.json();
 				})
@@ -61,7 +68,7 @@ export default function CaseResult(props: CaseResultProps) {
 					setCaseData(data);
 				})
 				.catch(error => {
-					console.log('Error:', error);
+					console.error('Error:', error);
 				});
 		};
 		if (caseId) {
@@ -125,7 +132,9 @@ export default function CaseResult(props: CaseResultProps) {
 					</Card>
 				</div >
 			) : (
-				<Typography>Loading...</Typography>
+				<Typography>
+					{caseNotFound ? 'Case not found' : 'Loading...'}
+				</Typography>
 			)
 			}
 		</div >
