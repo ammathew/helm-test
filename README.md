@@ -3,7 +3,7 @@
 ### Build frontend
 ```
 cd frontend    
-npm build    
+npm run build    
 npm run start
 ```
 A frontend server should now be running on `http://localhost:3000`
