@@ -16,7 +16,7 @@ A frontend server should now be running on `http://localhost:3000`
 cd backend
 ```
   
-#### Set up virtualenv and install requirements
+Set up virtualenv and install requirements
 
 ```
 python3 -m venv myenv
@@ -24,7 +24,7 @@ source myenv/bin/activate
 pip install -r requirements.txt
 ```
   
-#### Bring up backend server
+Bring up backend server
 ```
 uvicorn main:app --reload
 ```
