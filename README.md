@@ -1,14 +1,15 @@
 # Helm Take Home Project
 ## To Run
 
-### Build frontend
+  
+### Set up frontend
 ```
 cd frontend    
 npm run build    
 npm run start
 ```
 A frontend server should now be running on `http://localhost:3000`
-
+  
   
 ### Set up backend
 ```
@@ -28,6 +29,7 @@ pip install -r requirements.txt
 uvicorn main:app --reload
 ```
 A backend server should now be running on `http://localhost:8000`
+
 
   
 ### Visit application on browser
