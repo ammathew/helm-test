@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Typography } from '@material-ui/core';
 
 import { Card, CardContent, CardHeader, FormControlLabel, Checkbox } from '@material-ui/core';
+import { availableParallelism } from 'os';
 
 interface CaseResultProps {
 	params: {
@@ -30,11 +31,18 @@ interface CaseData {
 	steps: Step[];
 	summary: string;
 	created_at: string;
+	elapsed_time: number;
 }
 
 export default function CaseResult(props: CaseResultProps) {
     const [caseData, setCaseData] = useState<CaseData | null>(null);
 	const caseId = props.params.case_id;
+
+	function formatElapsedTime(seconds: number) {
+		const minutes = Math.floor(seconds / 60);
+		const remainingSeconds = (seconds % 60).toFixed(2);
+		return `${minutes} minutes, ${remainingSeconds} seconds`;
+	}
 
 	useEffect(() => {
 		let intervalId: number | undefined = undefined;
@@ -76,6 +84,10 @@ export default function CaseResult(props: CaseResultProps) {
 						<CardContent>
 							<Typography><strong>Status:</strong> {caseData.status || 'Loading...'}</Typography>
 							<Typography><strong>Case created on:</strong> {caseData.created_at ? new Date(caseData.created_at).toLocaleString('en-US', { month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true }) : 'Loading...'}</Typography>
+							<Typography>
+								<strong>Elapsed time: </strong>
+								{caseData.elapsed_time ? formatElapsedTime(caseData.elapsed_time) : 'Loading...'}
+							</Typography>
 							<Typography>
 								<strong>Determination: </strong>
 								{caseData.is_met !== null && caseData.is_met !== undefined ? (caseData.is_met ? 'Likely Accepted' : 'Likely Denial') : 'Loading...'}

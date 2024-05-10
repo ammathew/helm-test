@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List
-from datetime import datetime
+from datetime import datetime, timedelta
 import uuid
 
 import threading
@@ -31,6 +31,7 @@ class Case(BaseModel):
     status: str
     summary: Optional[str] = None
     steps: Optional[List[dict]] = None
+    elapsed_time: Optional[float] = None
 
 def load_json(file_path):
     with open(file_path, 'r') as f:
@@ -72,6 +73,10 @@ async def create_case():
 
 @app.get("/cases", response_model=List[Case])
 async def get_cases():
+    for case in cases.values():
+        now = datetime.now()
+        elapsed_time = now - case.created_at
+        case.elapsed_time = elapsed_time.total_seconds()
     return list(cases.values())
 
 @app.get("/cases/{case_id}", response_model=Case)
@@ -79,4 +84,9 @@ async def get_case(case_id: str):
     case = cases.get(case_id)
     if case is None:
         raise HTTPException(status_code=404, detail="Case not found")
+    
+    now = datetime.now()
+    elapsed_time = now - case.created_at
+    case.elapsed_time = elapsed_time.total_seconds()
+
     return case
